@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +19,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.employee_management_system.shashank.api.RetrofitClient;
+import com.employee_management_system.shashank.models.Employee;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -26,6 +30,10 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class logInActivity extends AppCompatActivity {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -41,73 +49,93 @@ public class logInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        userDetails= getSharedPreferences("userDetails", MODE_PRIVATE);
-        OTP_ET=findViewById(R.id.otp_ET);
-        userTypeSpinner =findViewById(R.id.userTypeSpinner_login);
-        userTypeSpinner.setAdapter(new ArrayAdapter<>(this,
-                androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,
-                new String[]{"Select", "Employee", "Admin", "Super Admin", "Registrar"}));
-        TextView firstLogin=findViewById(R.id.firstLogin);
+        Call<Employee> call = RetrofitClient.INSTANCE.getInstance().login("6389713683", "Pass");
+        call.enqueue(new Callback<Employee>() {
+            @Override
+            public void onResponse(@NonNull Call<Employee> call, @NonNull Response<Employee> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    Log.d("launcher", response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Employee> call, @NonNull Throwable t) {
+                Log.d("launcher", t.toString());
+            }
+        });
+        userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        OTP_ET = findViewById(R.id.otp_ET);
+        userTypeSpinner = findViewById(R.id.userTypeSpinner_login);
+        userTypeSpinner.setAdapter(
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        new String[]{"Select", "Employee", "Admin", "Super Admin", "Registrar"}
+                )
+        );
+        TextView firstLogin = findViewById(R.id.firstLogin);
         firstLogin.setOnClickListener(view -> {
-            if(!isFirstLogIn){
-                isFirstLogIn=true;
+            if (!isFirstLogIn) {
+                isFirstLogIn = true;
                 generateOPT.setVisibility(View.VISIBLE);
                 validateOTP_Btn.setVisibility(View.VISIBLE);
                 OTP_ET.setHint("OTP Here");
                 firstLogin.setText(R.string.login_using_password_click_here);
-            } else{
-                isFirstLogIn=false;
+            } else {
+                isFirstLogIn = false;
                 generateOPT.setVisibility(View.GONE);
                 validateOTP_Btn.setVisibility(View.GONE);
                 OTP_ET.setHint("Password Here");
                 firstLogin.setText(R.string.first_login_or_forgot_password_click_here);
             }
         });
-        mobileNoET=findViewById(R.id.mobileNumberLogInPg_ET);
+        mobileNoET = findViewById(R.id.mobileNumberLogInPg_ET);
         OTP_ET.setHint("Password Here");
         employeeId_ET = findViewById(R.id.empId_ET);
-        generateOPT=findViewById(R.id.generateOTP_Btn);
-        generateOPT.setOnClickListener(v->{
-            if (mobileNoET.getText().toString().length()!=10) Toast.makeText(this,
+        generateOPT = findViewById(R.id.generateOTP_Btn);
+        generateOPT.setOnClickListener(v -> {
+            if (mobileNoET.getText().toString().length() != 10) Toast.makeText(this,
                     "Enter a valid mobile Number", Toast.LENGTH_SHORT).show();
             else if (noInternetActivity.isConnectionAvailable(getApplicationContext()))
-                startActivity(new Intent(this,noInternetActivity.class));
-            else if(!isWaitingForOTP) {
-                minuteOTP =2;
-                secondOTP =0;
+                startActivity(new Intent(this, noInternetActivity.class));
+            else if (!isWaitingForOTP) {
+                minuteOTP = 2;
+                secondOTP = 0;
                 mobileNoET.setEnabled(false);
                 generateOPT.setEnabled(false);
-                mobileNumber=mobileNoET.getText().toString();
-                authenticate("+91"+mobileNumber);
-                isWaitingForOTP=true;
+                mobileNumber = mobileNoET.getText().toString();
+                authenticate("+91" + mobileNumber);
+                isWaitingForOTP = true;
                 final Handler handler = new Handler();
                 final Runnable r = new Runnable() {
                     public void run() {
-                        if ((minuteOTP > 0 || secondOTP > 0)&&isWaitingForOTP) {
+                        if ((minuteOTP > 0 || secondOTP > 0) && isWaitingForOTP) {
                             if (secondOTP == 0) {
                                 minuteOTP--;
                                 secondOTP = 59;
                             } else secondOTP--;
                             String str;
-                            if(secondOTP<10) str= "0"+minuteOTP +":0"+ secondOTP;
-                            else str= "0"+minuteOTP +":"+ secondOTP;
+                            if (secondOTP < 10) str = "0" + minuteOTP + ":0" + secondOTP;
+                            else str = "0" + minuteOTP + ":" + secondOTP;
                             generateOPT.setText(str);
                             handler.postDelayed(this, 1000);
-                        }
-                        else {
-                            isWaitingForOTP=false;
+                        } else {
+                            isWaitingForOTP = false;
                             generateOPT.setEnabled(true);
                             generateOPT.setText(R.string.get_otp);
                         }
                     }
                 };
                 handler.post(r);
-            } else Toast.makeText(this, "Wait for "+ minuteOTP +" minute "+ secondOTP +"second.", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(this, "Wait for " + minuteOTP + " minute " + secondOTP + "second.", Toast.LENGTH_SHORT).show();
         });
-        validateOTP_Btn=findViewById(R.id.validateOTP_Btn);
+        validateOTP_Btn = findViewById(R.id.validateOTP_Btn);
         validateOTP_Btn.setOnClickListener(v -> {
-            if(isConnectionAvailable(getApplicationContext())) startActivity(new Intent(this,noInternetActivity.class));
-            else if(!OTP_ET.getText().toString().equals("")) {
+            if (isConnectionAvailable(getApplicationContext()))
+                startActivity(new Intent(this, noInternetActivity.class));
+            else if (!OTP_ET.getText().toString().isEmpty()) {
                 verifyCode(OTP_ET.getText().toString());
                 generateOPT.setEnabled(false);
                 OTP_ET.setEnabled(false);
@@ -115,28 +143,35 @@ public class logInActivity extends AppCompatActivity {
                 validateOTP_Btn.setText(R.string.verifying);
             } else Toast.makeText(this, "Enter OTP", Toast.LENGTH_SHORT).show();
         });
-        login_Btn=findViewById(R.id.logIn_Btn);
+        login_Btn = findViewById(R.id.logIn_Btn);
         login_Btn.setOnClickListener(view -> {
-            userType=userTypeSpinner.getSelectedItem().toString();
-            String empId=employeeId_ET.getText().toString();
-            if(isConnectionAvailable(getApplicationContext())) startActivity(new Intent(this,noInternetActivity.class));
-            else if(userType.equals("Select")) Toast.makeText(this, "Select User Type.", Toast.LENGTH_SHORT).show();
-            else if(mobileNoET.getText().length()!=10) Toast.makeText(this, "Enter Correct Mobile Number", Toast.LENGTH_SHORT).show();
-            else if(!empId.contains("iise@")) Toast.makeText(this, "Enter Correct Employee Id", Toast.LENGTH_SHORT).show();
-            else if(OTP_ET.getText().equals("")) Toast.makeText(this, "Enter PIN/Password", Toast.LENGTH_SHORT).show();
+            userType = userTypeSpinner.getSelectedItem().toString();
+            String empId = employeeId_ET.getText().toString();
+            if (isConnectionAvailable(getApplicationContext()))
+                startActivity(new Intent(this, noInternetActivity.class));
+            else if (userType.equals("Select"))
+                Toast.makeText(this, "Select User Type.", Toast.LENGTH_SHORT).show();
+            else if (mobileNoET.getText().length() != 10)
+                Toast.makeText(this, "Enter Correct Mobile Number", Toast.LENGTH_SHORT).show();
+            else if (!empId.contains("iise@"))
+                Toast.makeText(this, "Enter Correct Employee Id", Toast.LENGTH_SHORT).show();
+            else if (OTP_ET.getText().equals(""))
+                Toast.makeText(this, "Enter PIN/Password", Toast.LENGTH_SHORT).show();
             else firebaseAuth.signInAnonymously().addOnCompleteListener(this, task -> {
-                if (task.isSuccessful()) {
-                    login_Btn.setEnabled(false);
-                    login_Btn.setText(R.string.please_wait);
-                    if(!isFirstLogIn) {
-                        if (userType.equals("Super Admin")) regularLoginSuperAdmin();
-                        else regularLoginEmployee();
-                    } else if(isMobileVerified) {
-                        if (userType.equals("Super Admin")) firstLoginSuperAdmin();
-                        else firstLoginEmployee();
-                    } else Toast.makeText(this, "Verify your Mobile Number", Toast.LENGTH_SHORT).show();
-                } else Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-            });
+                    if (task.isSuccessful()) {
+                        login_Btn.setEnabled(false);
+                        login_Btn.setText(R.string.please_wait);
+                        if (!isFirstLogIn) {
+                            if (userType.equals("Super Admin")) regularLoginSuperAdmin();
+                            else regularLoginEmployee();
+                        } else if (isMobileVerified) {
+                            if (userType.equals("Super Admin")) firstLoginSuperAdmin();
+                            else firstLoginEmployee();
+                        } else
+                            Toast.makeText(this, "Verify your Mobile Number", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                });
         });
         findViewById(R.id.logInReset_Btn).setOnClickListener(view -> reset());
     }

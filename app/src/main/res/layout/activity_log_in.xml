@@ -28,7 +28,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:id="@+id/userTypeSpinner_login"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/border_2dp_green"/>
     </LinearLayout>
     <LinearLayout

@@ -1,5 +1,6 @@
 package com.employee_management_system.shashank;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import java.io.File;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference();
         sharedPreferences= getSharedPreferences("userDetails", MODE_PRIVATE);
         firebaseFirestore.collection("employees")
                 .document(sharedPreferences.getString("empId",null))
@@ -78,13 +83,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.manageLeaveBtn).setOnClickListener(v -> startActivity(new Intent(this,manageLeaveActivity.class)));
         findViewById(R.id.moreOptionBtn).setOnClickListener(v -> startActivity(new Intent(this,moreOptionsActivity.class)));
         navigationDrawer();
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    finish();
+                }
+            }
+        });
+
     }
     private void navigationDrawer() {
         ImageButton navBtn=findViewById(R.id.navigationDrawerBtn_MainPg);
         drawerLayout = findViewById(R.id.drawer_layout);
         navBtn.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
         NavigationView navigationView = findViewById(R.id.nav_view);
-        if(sharedPreferences.getString("userType",null).equals("Admin"))
+        if(Objects.equals(sharedPreferences.getString("userType", null), "Admin"))
             navigationView.getMenu().findItem(R.id.adminMode_mainDrawer).setVisible(true);
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -120,13 +137,5 @@ public class MainActivity extends AppCompatActivity {
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
-    }
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 }

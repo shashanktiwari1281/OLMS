@@ -63,7 +63,7 @@ public class stationLeaveForm extends AppCompatActivity {
         reportingToSpinner =findViewById(R.id.reportingToSpinner_SNL);
         ArrayList<String> reportingToNames=new ArrayList<>();
         reportingToNames.add("Select");
-        reportingToSpinner.setAdapter(new ArrayAdapter<>(this, androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item, reportingToNames));
+        reportingToSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reportingToNames));
         if(sharedPreferences.getString("userType",null).equals("Admin"))
             firebaseFirestore.collection("superAdmin").get().addOnCompleteListener(task -> {
                 reportingToNames.add(task.getResult().getDocuments().get(0).getString("name"));

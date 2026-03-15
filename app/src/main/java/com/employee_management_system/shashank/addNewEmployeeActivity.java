@@ -62,7 +62,7 @@ public class addNewEmployeeActivity extends AppCompatActivity {
         user.add("Registrar");
         if(getSharedPreferences("userDetails",MODE_PRIVATE).getString("userType",null).equals("Super Admin")) user.add("Admin");
         userTypeSpinner.setAdapter(new ArrayAdapter<>(this,
-                androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_dropdown_item,
                 user));
         dob.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();

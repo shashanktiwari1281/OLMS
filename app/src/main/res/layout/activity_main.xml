@@ -5,27 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@drawable/border_20dp_blue"
     tools:context=".MainActivity"
     android:id="@+id/drawer_layout">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="20dp">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/navigationDrawerBtn_MainPg"
-        android:layout_width="51dp"
-        android:layout_height="51dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:elevation="1dp"
-        android:layout_marginTop="-6dp"
-        android:layout_marginStart="-4dp"
+        android:background="#004CAF50"
+        android:scaleType="centerCrop"
+        android:padding="6dp"
         android:src="@drawable/baseline_menu_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Navigation Drawer Btn" />
+        android:contentDescription="Navigation Drawer Btn"
+        app:tint="@color/white" />
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:gravity="center"
                 android:text="@string/employee_details"
                 android:textStyle="bold"
@@ -346,7 +346,6 @@
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
         android:layout_gravity="start"
         app:menu="@menu/menu_main_activity"/>
 

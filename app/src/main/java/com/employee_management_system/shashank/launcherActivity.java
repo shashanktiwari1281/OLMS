@@ -1,6 +1,8 @@
 package com.employee_management_system.shashank;
 
 import static com.employee_management_system.shashank.noInternetActivity.isConnectionAvailable;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -8,11 +10,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.employee_management_system.shashank.api.RetrofitClient;
+import com.employee_management_system.shashank.models.Employee;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import kotlinx.coroutines.internal.ScopeCoroutine;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class launcherActivity extends AppCompatActivity {
     private final FirebaseFirestore db=FirebaseFirestore.getInstance();

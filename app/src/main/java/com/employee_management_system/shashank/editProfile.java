@@ -61,7 +61,7 @@ public class editProfile extends AppCompatActivity {
         if(userType.equals("Super Admin")||userType.equals("Admin")) user.add("Admin");
         userTypeSpinner=findViewById(R.id.userTypeSpinner_AddEmp);
         userTypeSpinner.setAdapter(new ArrayAdapter<>(this,
-                androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_dropdown_item,
                 user));
         findViewById(R.id.genderTV_AddEmp).setVisibility(View.GONE);
         name = findViewById(R.id.nameAddEmp);
@@ -100,7 +100,7 @@ public class editProfile extends AppCompatActivity {
             datePickerDialog.show();
         });
         firebaseFirestore.collection("employees")
-                .document(getIntent().getStringExtra("empId"))
+                .document(Objects.requireNonNull(getIntent().getStringExtra("empId")))
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
