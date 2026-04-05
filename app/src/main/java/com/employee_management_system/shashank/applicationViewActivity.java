@@ -1,12 +1,17 @@
 package com.employee_management_system.shashank;
+
 import static com.employee_management_system.shashank.miscellaneousMethods.timeStampToDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.employee_management_system.shashank.activity.ChatActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -16,7 +21,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class applicationViewActivity extends AppCompatActivity {
-    private final FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +34,7 @@ public class applicationViewActivity extends AppCompatActivity {
                 .document(getIntent().getStringExtra("applicationId"))
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (getIntent().getStringExtra("calledBy").equals("employee")) {
+                    if (Objects.equals(getIntent().getStringExtra("calledBy"), "employee")) {
                         findViewById(R.id.empNameAppViewPg).setVisibility(View.GONE);
                         findViewById(R.id.empNameLabelAppViewPg).setVisibility(View.GONE);
                         findViewById(R.id.empIdLabelAppViewPg).setVisibility(View.GONE);
@@ -51,34 +57,52 @@ public class applicationViewActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void setViews(DocumentSnapshot docs) throws IOException {
-        TextView applyDate=findViewById(R.id.applyDateAppViewPg);
-        applyDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("appliedOn")).getSeconds(),"dd-MM-yyyy, hh:mm:s a"));
-        TextView reportingTo=findViewById(R.id.reportingToAppViewPg);
+        TextView applyDate = findViewById(R.id.applyDateAppViewPg);
+        applyDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("appliedOn")).getSeconds(), "dd-MM-yyyy, hh:mm:s a"));
+        TextView reportingTo = findViewById(R.id.reportingToAppViewPg);
         reportingTo.setText(docs.getString("reportingOfficer"));
-        TextView leaveCategory=findViewById(R.id.leaveCategoryAppViewPg);
+        TextView leaveCategory = findViewById(R.id.leaveCategoryAppViewPg);
         leaveCategory.setText(docs.getString("leaveCategory"));
-        TextView lvType=findViewById(R.id.leaveTypeAppViewPg);
+        TextView lvType = findViewById(R.id.leaveTypeAppViewPg);
         lvType.setText(docs.getString("leaveType"));
-        TextView lvDate=findViewById(R.id.leaveDateAppViewPg);if (Objects.equals(docs.getString("leaveCategory"), "Short Leave"))
-            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(),"dd/MM/yyyy, ( hh:mm a")+timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds()+7200," - hh:mm a )"));
+        TextView lvDate = findViewById(R.id.leaveDateAppViewPg);
+        if (Objects.equals(docs.getString("leaveCategory"), "Short Leave"))
+            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(), "dd/MM/yyyy, ( hh:mm a") + timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds() + 7200, " - hh:mm a )"));
         else if (Objects.equals(docs.getString("leaveCategory"), "Half Day Leave"))
-            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(),"dd-MM-yyyy")+" "+docs.getString("timePeriod"));
-        else if(Objects.requireNonNull(docs.getLong("numberOfLeave"))==1)
-            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(),"dd-MM-yyyy"));
-        else if(Objects.requireNonNull(docs.getLong("numberOfLeave"))>1)
-            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("startDate")).getSeconds(),"dd-MM-yyyy")+" - "
-                    +timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("endDate")).getSeconds(),"dd-MM-yyyy"));
-        TextView status=findViewById(R.id.lvStatusAppViewPg);
+            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(), "dd-MM-yyyy") + " " + docs.getString("timePeriod"));
+        else if (Objects.requireNonNull(docs.getLong("numberOfLeave")) == 1)
+            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("leaveDate")).getSeconds(), "dd-MM-yyyy"));
+        else if (Objects.requireNonNull(docs.getLong("numberOfLeave")) > 1)
+            lvDate.setText(timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("startDate")).getSeconds(), "dd-MM-yyyy") + " - "
+                    + timeStampToDateFormat(Objects.requireNonNull(docs.getTimestamp("endDate")).getSeconds(), "dd-MM-yyyy"));
+        TextView status = findViewById(R.id.lvStatusAppViewPg);
         status.setText(docs.getString("leaveStatus"));
-        if(Objects.equals(docs.getString("leaveStatus"), "Rejected")) {
-            TextView rejectReason=findViewById(R.id.rejectionReasonAppViewPg);
+        if (Objects.equals(docs.getString("leaveStatus"), "Rejected")) {
+            TextView rejectReason = findViewById(R.id.rejectionReasonAppViewPg);
             rejectReason.setText(docs.getString("rejectionReason"));
             findViewById(R.id.rejectReasonLabelAppViewPg).setVisibility(View.VISIBLE);
             rejectReason.setVisibility(View.VISIBLE);
         }
-        if (Objects.requireNonNull(docs.getString("leaveReason")).length()>0) {
-            TextView lvReason=findViewById(R.id.lvDescAppViewPg);
+        if (docs.contains("reportingOfficerId") &&
+                (!Objects.equals(docs.getString("leaveStatus"), "Pending") ||
+                        (Objects.equals(docs.getString("leaveStatus"), "Pending") &&
+                                System.currentTimeMillis() / 1000 -
+                                        Objects.requireNonNull(docs.getTimestamp("appliedOn")).getSeconds() > 2 * 60 * 60)
+                )
+        ) {
+            findViewById(R.id.chatHelpBtn).setVisibility(View.VISIBLE);
+            findViewById(R.id.chatHelpBtn).setOnClickListener(view -> {
+                startActivity(
+                        new Intent(this, ChatActivity.class)
+                                .putExtra("applicationId", getIntent().getStringExtra("applicationId"))
+                                .putExtra("reportingOfficerId", docs.getString("reportingOfficerId"))
+                );
+            });
+        }
+        if (!Objects.requireNonNull(docs.getString("leaveReason")).isEmpty()) {
+            TextView lvReason = findViewById(R.id.lvDescAppViewPg);
             lvReason.setText(docs.getString("leaveReason"));
             findViewById(R.id.lvDescLabelAppViewPg).setVisibility(View.VISIBLE);
             lvReason.setVisibility(View.VISIBLE);
@@ -93,7 +117,6 @@ public class applicationViewActivity extends AppCompatActivity {
                         findViewById(R.id.docAttachedLabelAppViewPg).setVisibility(View.VISIBLE);
                         docAttached.setImageBitmap(BitmapFactory.decodeFile(localFile.getAbsolutePath()));
                     });
-
         }
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".applicationViewActivity">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/navCard"
         android:layout_width="0dp"
@@ -15,24 +16,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-          android:id="@+id/backBtnAppViewPg"
-          android:layout_width="60dp"
-          android:layout_height="60dp"
-          android:background="#72BD75"
-          android:contentDescription="@string/back_button"
-          android:src="@drawable/baseline_arrow_back_24" />
-
-        <TextView
-            android:id="@+id/titleAppViewPg"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="80dp"
-            android:maxLines="1"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backBtnAppViewPg"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:background="#72BD75"
+                android:contentDescription="@string/back_button"
+                android:padding="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/titleAppViewPg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/chatHelpBtn"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_gravity="end"
+                android:background="#72BD75"
+                android:contentDescription="@null"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                android:src="@drawable/chat_help" />
+
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,190 +67,211 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/navCard"
         app:layout_constraintVertical_bias="0.0">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Applied On:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Applied On:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/applyDateAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_marginStart="20dp"
                 android:textColor="@color/black"
-                android:layout_marginStart="20dp"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Reporting To:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Reporting To:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/reportingToAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_marginStart="20dp"
                 android:textColor="@color/black"
-                android:layout_marginStart="20dp"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Leave Category:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Leave Category:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/leaveCategoryAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_marginStart="20dp"
                 android:textColor="@color/black"
-                android:layout_marginStart="20dp"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Leave Type:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Leave Type:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/leaveTypeAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Leave Date:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Leave Date:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/leaveDateAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/empNameLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Employee Name:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Employee Name:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/empNameAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/empIdLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Employee Id:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Employee Id:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/empIdAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/lvStatusLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Leave Status:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Leave Status:"
+                android:textStyle="italic" />
+
             <TextView
                 android:id="@+id/lvStatusAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"/>
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/rejectReasonLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:visibility="gone"
-                android:text="Rejection Reason:"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Rejection Reason:"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/rejectionReasonAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="#F44336"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="#F44336"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/lvDescLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Leave Reason:"
-                android:visibility="gone"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Leave Reason:"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/lvDescAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/docAttachedLabelAppViewPg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Document Attached:"
-                android:visibility="gone"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"/>
+                android:text="Document Attached:"
+                android:textStyle="italic"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/docAttachedAppViewPg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_2dp_green"
                 android:layout_margin="10dp"
-                android:visibility="gone"
-                android:scaleType="fitXY"/>
+                android:background="@drawable/border_2dp_green"
+                android:scaleType="fitXY"
+                android:visibility="gone" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

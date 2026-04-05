@@ -48,6 +48,7 @@ public class shortLeaveForm extends AppCompatActivity {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
+    private final Map<String, String> reportingOfficerMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +62,17 @@ public class shortLeaveForm extends AppCompatActivity {
         reportingToSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reportingToNames));
         if(sharedPreferences.getString("userType",null).equals("Admin"))
             firebaseFirestore.collection("superAdmin").get().addOnCompleteListener(task -> {
-                reportingToNames.add(task.getResult().getDocuments().get(0).getString("name"));
+                DocumentSnapshot snap = task.getResult().getDocuments().get(0);
+                reportingToNames.add(snap.getString("name"));
+                reportingOfficerMap.put(snap.getString("name"), snap.getId());
                 reportingToSpinner.setSelection(1);
             });
         else firebaseFirestore.collection("employees").whereEqualTo("userType","Admin")
                 .get().addOnCompleteListener(task ->{
-                    for(DocumentSnapshot documentSnapshot:task.getResult()) reportingToNames.add(documentSnapshot.getString("name"));
-                });
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        reportingOfficerMap.put(documentSnapshot.getString("name"), documentSnapshot.getId());
+                        reportingToNames.add(documentSnapshot.getString("name"));
+                    }                });
         leaveTypeSpinner = findViewById(R.id.leaveTypeSpinner_SRL);
         firebaseFirestore.collection("employees")
                 .document(sharedPreferences.getString("empId", null))
@@ -160,6 +165,7 @@ public class shortLeaveForm extends AppCompatActivity {
         } else {
             Map<String, Object> leaveApplication = new HashMap<>();
             leaveApplication.put("reportingOfficer", reportingToSpinner.getSelectedItem().toString());
+            leaveApplication.put("reportingOfficerId", reportingOfficerMap.get(reportingToSpinner.getSelectedItem().toString()));
             leaveApplication.put("leaveType", leaveTypeSpinner.getSelectedItem().toString());
             leaveApplication.put("leaveCategory", "Short Leave");
             leaveApplication.put("leaveDate", getTimeStamp(dateTV.getText().toString() + "T" + leaveHour + ":" + leaveMinute + ":00Z"));
