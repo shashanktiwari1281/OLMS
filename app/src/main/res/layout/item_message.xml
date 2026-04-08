@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/receivedMsgLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:elevation="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="100dp">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            app:tint="@color/white"
+            android:src="@drawable/triangle_left"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_left_msg">
+            <TextView
+                android:id="@+id/receivedMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="2dp"
+                android:text="Hello, \nThis side Shashank Tiwari."
+                android:layout_marginTop="2dp"
+                android:layout_marginHorizontal="6dp"/>
+            <TextView
+                android:id="@+id/receivedMsgTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginStart="44dp"
+                android:layout_gravity="end"
+                android:textColor="#787878"
+                android:layout_marginVertical="2dp"
+                android:layout_marginEnd="4dp"
+                android:text="Today, 7:08 am"/>
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sentMsgLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:elevation="4dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="100dp">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            app:tint="#ADFFB1"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/triangle_right"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_right_msg">
+            <TextView
+                android:id="@+id/sentMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="2dp"
+                android:text="Hello, \nThis side Shashank Tiwari."
+                android:layout_marginTop="2dp"
+                android:layout_marginHorizontal="6dp"/>
+            <TextView
+                android:id="@+id/sentMsgTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginStart="44dp"
+                android:layout_gravity="end"
+                android:textColor="#787878"
+                android:layout_marginVertical="2dp"
+                android:layout_marginEnd="4dp"
+                android:text="Today, 7:08 am"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

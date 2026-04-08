@@ -1,60 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFDBDB"
     tools:context=".activity.ChatActivity">
 
-  <com.google.android.material.appbar.AppBarLayout
-      android:id="@+id/appbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="#72BD75">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="52dp"
-          android:orientation="vertical">
-
-        <TextView
-          android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="Title"/>
+            app:contentInsetStart="0dp">
+            
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="4dp"
+                android:contentDescription="@null"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/baseline_arrow_back_24"/>
 
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="52dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subtitle"
+                    android:textSize="11sp" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/infoBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@null"
+                android:padding="4dp"
+                android:src="@drawable/info"
+                app:tint="#6B6B6B" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/msgRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_message"
+        android:layout_weight="1" />
+
+<LinearLayout
+    android:id="@+id/bottomBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp"
+    android:background="#EDEDED"
+    android:gravity="center">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        app:cardCornerRadius="21dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="12dp"
+        app:strokeColor="#E4E4E4"
+        app:cardBackgroundColor="@color/white"
+        android:layout_weight="1">
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="Subtitle"/>
+            android:textSize="20sp"
+            android:layout_marginVertical="8dp"
+            android:paddingEnd="4dp"
+            android:hint="@string/type_something"
+            android:paddingStart="8dp"
+            android:inputType="textShortMessage"
+            android:background="@color/white"/>
 
+    </com.google.android.material.card.MaterialCardView>
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        android:text="Send" />
+</LinearLayout>
 
-      </LinearLayout>
-
-      <ImageView
-        android:id="@+id/infoBtn"
-          android:layout_width="32dp"
-          android:layout_height="32dp"
-          android:padding="4dp"
-          app:tint="#6B6B6B"
-          android:layout_gravity="end"
-          android:layout_marginEnd="12dp"
-        android:contentDescription="@null"
-        android:src="@drawable/info"/>
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-  </com.google.android.material.appbar.AppBarLayout>
-
-  </LinearLayout>
+</LinearLayout>

@@ -1,8 +1,8 @@
 package com.employee_management_system.shashank.models
 
 data class Chat(
-    val senderId: String,
-    val message: String,
-    val timestamp: Long,
-    val isSeen: Boolean
+    var senderId: String? = null,
+    var message: String? = null,
+    var timestamp: Long = 0,
+    var isSeen: Boolean = false
 )

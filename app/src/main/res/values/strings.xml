@@ -89,4 +89,8 @@
     <string name="medical_leave">Medical Leave</string>
     <string name="got_it">Got It</string>
     <string name="half_day_leave_application">Half Day Leave Application</string>
+    <string name="type_something">Type Something...</string>
+    <string name="chats">Chats</string>
+    <string name="reset_leave_balance">Reset Leave Balance</string>
+    <string name="inbox">Inbox</string>
 </resources>

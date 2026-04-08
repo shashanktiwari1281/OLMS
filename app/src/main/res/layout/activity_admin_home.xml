@@ -145,7 +145,7 @@
                     android:background="#DDDCDC"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Reset Leave Balance"
+                    android:text="@string/reset_leave_balance"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -201,6 +201,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="#FF909090" />
+
+                <LinearLayout
+                    android:id="@+id/chats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#DDDCDC"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/chats"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F42C2C"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/pendingApplication_TV_AdminTool"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="New"
+                            android:layout_marginBottom="2dp"
+                            android:textColor="@color/white" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#FF909090" />
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/problemReported_CL_AdminTool"
