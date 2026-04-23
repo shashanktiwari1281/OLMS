@@ -98,6 +98,7 @@ public class applicationViewActivity extends AppCompatActivity {
                         new Intent(this, ChatActivity.class)
                                 .putExtra("applicationId", getIntent().getStringExtra("applicationId"))
                                 .putExtra("reportingOfficerId", docs.getString("reportingOfficerId"))
+                                .putExtra("senderName", docs.getString("reportingOfficer"))
                 );
             });
         }

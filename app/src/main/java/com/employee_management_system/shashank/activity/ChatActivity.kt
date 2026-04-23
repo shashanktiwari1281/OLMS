@@ -6,16 +6,18 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.employee_management_system.shashank.PreferenceHelper
+import com.employee_management_system.shashank.utils.PreferenceHelper
 import com.employee_management_system.shashank.adapter.MessageAdapter
 import com.employee_management_system.shashank.databinding.ActivityChatBinding
 import com.employee_management_system.shashank.logInActivity
 import com.employee_management_system.shashank.models.Chat
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -30,6 +32,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private val chatList = mutableListOf<Chat?>()
     private lateinit var chatReference: DatabaseReference
+    private var messageAdapter: MessageAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,12 +42,15 @@ class ChatActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, 0, systemBars.right, 0)
             binding.appbar.setPadding(0, systemBars.top, 0, 0)
-            binding.bottomBar.setPadding(0, 0, 0, systemBars.bottom)
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            binding.bottomBar.setPadding(0, 0, 0, imeHeight.coerceAtLeast(systemBars.bottom))
             insets
         }
 
         val reportingOfficerId = intent.getStringExtra("reportingOfficerId")
         applicationId = intent.getStringExtra("applicationId")
+
+        binding.title.text = intent.getStringExtra("senderName")
 
 
         val userId = PreferenceHelper.getUserId(this)
@@ -69,8 +75,10 @@ class ChatActivity : AppCompatActivity() {
             Toast.makeText(this, "Something Going Wrong!", Toast.LENGTH_SHORT).show()
             return
         }
-
+        TooltipCompat.setTooltipText(binding.infoBtn, "These messages will disappears after 7 days.")
         loadInitialMessages()
+
+        listenForMessages()
 
         binding.btnSend.setOnClickListener {
 
@@ -91,7 +99,7 @@ class ChatActivity : AppCompatActivity() {
                 chatList.clear()
                 for (ds in snapshot.getChildren()) {
                     val chat: Chat? = ds.getValue<Chat?>(Chat::class.java)
-                    chatList.add(chat)
+//                    chatList.add(chat)
                 }
 
                 binding.msgRecyclerView.layoutManager =
@@ -99,11 +107,40 @@ class ChatActivity : AppCompatActivity() {
                         stackFromEnd = true
                     }
 
-                binding.msgRecyclerView.adapter = MessageAdapter(chatList)
+                messageAdapter = MessageAdapter(chatList)
+                binding.msgRecyclerView.adapter = messageAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+    private fun listenForMessages() {
+
+        chatReference
+            .orderByChild("timestamp")
+            .startAt((System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000)).toDouble())
+            .addChildEventListener(object : ChildEventListener {
+
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
+                    val chat = snapshot.getValue(Chat::class.java)
+
+                    chat?.let {
+                        messageAdapter?.addNewChat(it)
+                        binding.msgRecyclerView.smoothScrollToPosition(messageAdapter?.msgList?.size?:0)
+                    }
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {}
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Realtime", error.message)
+                }
+            })
     }
 
     private fun sendMessage(message: String) {
