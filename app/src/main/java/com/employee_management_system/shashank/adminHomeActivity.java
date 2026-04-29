@@ -41,7 +41,7 @@ public class adminHomeActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.chats).setOnClickListener(v ->
-                startActivity(new Intent(this, ChatListActivity.class))
+                startActivity(new Intent(this, ChatListActivity.class).putExtra("fromAdmin", true))
         );
 
     }

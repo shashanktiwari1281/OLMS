@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.employee_management_system.shashank.activity.ChatListActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -122,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
             else if (id == R.id.viewBalance_mainDrawer) startActivity(new Intent(this, leaveBalanceActivity.class)
                 .putExtra("empId",sharedPreferences.getString("empId",null)));
             else if (id == R.id.myApplication_mainDrawer) startActivity(new Intent(this, myApplicationActivity.class));
+            else if(id == R.id.myChats)
+                    startActivity(new Intent(this, ChatListActivity.class).putExtra("fromAdmin", false));
             else if (id == R.id.editProfile_mainDrawer) startActivity(new Intent(this, editProfile.class)
                 .putExtra("empId", sharedPreferences.getString("empId", null))
                 .putExtra("calledBy", "employee"));

@@ -9,6 +9,7 @@ import com.employee_management_system.shashank.databinding.ItemInboxBinding
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
 class InboxAdapter(
+    val fromAdmin: Boolean,
     val list : ArrayList<QueryDocumentSnapshot>
 ) : RecyclerView.Adapter<InboxAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
@@ -30,14 +31,14 @@ class InboxAdapter(
     ) {
         val data = list[position]
         holder.binding.leaveId.text = data.id
-        holder.binding.senderName.text = data.getString("empName")
+        holder.binding.senderName.text = if (fromAdmin) data.getString("empName") else data.getString("reportingOfficer")
 
         holder.itemView.setOnClickListener {
             holder.itemView.context.startActivity(
                 Intent(holder.itemView.context, ChatActivity::class.java)
                     .putExtra("applicationId", data.id)
                     .putExtra("reportingOfficerId", data.getString("reportingOfficerId"))
-                    .putExtra("senderName", data.getString("empName"))
+                    .putExtra("senderName", if (fromAdmin) data.getString("empName") else data.getString("reportingOfficer"))
             )
         }
     }

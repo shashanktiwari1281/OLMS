@@ -37,17 +37,6 @@
                 android:text="@string/inbox"
                 android:textSize="20sp" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/infoBtn"-->
-<!--                android:layout_width="32dp"-->
-<!--                android:layout_height="32dp"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:layout_marginEnd="12dp"-->
-<!--                android:contentDescription="@null"-->
-<!--                android:padding="4dp"-->
-<!--                android:src="@drawable/info"-->
-<!--                app:tint="#6B6B6B" />-->
-
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

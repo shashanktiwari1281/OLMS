@@ -30,6 +30,10 @@
         android:title="My Applications" />
 
     <item
+        android:id="@+id/myChats"
+        android:title="My Chats" />
+
+    <item
         android:id="@+id/editProfile_mainDrawer"
         android:title="@string/edit_my_profile" />
 

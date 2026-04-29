@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.employee_management_system.shashank.activity.ChatActivity;
+import com.employee_management_system.shashank.utils.PreferenceHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -94,11 +95,14 @@ public class applicationViewActivity extends AppCompatActivity {
         ) {
             findViewById(R.id.chatHelpBtn).setVisibility(View.VISIBLE);
             findViewById(R.id.chatHelpBtn).setOnClickListener(view -> {
+                String senderName = "";
+                if(Objects.equals(docs.getString("empId"), PreferenceHelper.INSTANCE.getUserId(this))) senderName = docs.getString("reportingOfficer");
+                else senderName = docs.getString("empName");
                 startActivity(
                         new Intent(this, ChatActivity.class)
                                 .putExtra("applicationId", getIntent().getStringExtra("applicationId"))
                                 .putExtra("reportingOfficerId", docs.getString("reportingOfficerId"))
-                                .putExtra("senderName", docs.getString("reportingOfficer"))
+                                .putExtra("senderName",senderName)
                 );
             });
         }

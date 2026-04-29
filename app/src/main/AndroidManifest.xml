@@ -24,12 +24,15 @@
         android:theme="@style/Theme.EMS"
         tools:targetApi="31">
         <activity
+            android:name=".activity.UserChatListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ChatListActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ChatActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".halfDayLeaveForm"
             android:exported="false" />
