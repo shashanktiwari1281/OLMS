@@ -22,11 +22,14 @@ import android.widget.Toast;
 
 import com.employee_management_system.shashank.api.RetrofitClient;
 import com.employee_management_system.shashank.models.Employee;
+import com.employee_management_system.shashank.models.OTP;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
@@ -204,6 +207,16 @@ public class logInActivity extends AppCompatActivity {
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        DatabaseReference otpRef = FirebaseDatabase.getInstance(
+                                "https://ems-iise-default-rtdb.asia-southeast1.firebasedatabase.app/"
+                        ).getReference("OTPs");
+                        String requestId = otpRef.push().getKey();
+                        OTP otp = new OTP(
+                                phoneNumber,
+                                String.valueOf(1000 + new java.util.Random().nextInt(9000)),
+                                true
+                        );
+                        otpRef.child(phoneNumber).setValue(otp);
                     }
                     @Override
                     public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
