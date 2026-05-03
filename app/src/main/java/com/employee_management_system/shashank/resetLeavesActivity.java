@@ -3,6 +3,7 @@ package com.employee_management_system.shashank;
 import static com.employee_management_system.shashank.noInternetActivity.isConnectionAvailable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +25,9 @@ public class resetLeavesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_reset_leaves);
         findViewById(R.id.backBtn_resetLeave).setOnClickListener(view -> finish());
         TextView lastResetDate = findViewById(R.id.lastResetDate);

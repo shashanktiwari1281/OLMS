@@ -1,6 +1,7 @@
 package com.employee_management_system.shashank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,9 @@ public class reportedProblemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_reported_problem);
         findViewById(R.id.backBtn_reportedProblemPg).setOnClickListener(view -> finish());
         TextView processingPg=findViewById(R.id.processingTV_reportedProblemPg);

@@ -3,6 +3,8 @@ package com.employee_management_system.shashank;
 import static com.employee_management_system.shashank.miscellaneousMethods.timeStampToDateFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -27,6 +29,9 @@ public class applicationViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_application_view);
         findViewById(R.id.backBtnAppViewPg).setOnClickListener(view -> finish());
         TextView title = findViewById(R.id.titleAppViewPg);

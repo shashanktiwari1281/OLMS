@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@drawable/border_20dp_blue"
-    tools:context=".oneDayLeaveFormActivity">
+    tools:context=".oneDayLeaveFormActivity"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:background="@drawable/border_20dp_blue">
 
     <TextView
         android:id="@+id/formHeading"
@@ -96,6 +101,7 @@
                             android:autofillHints="" />
                     </TableRow>
                     <TableRow
+                        android:visibility="gone"
                         android:layout_marginTop="15dp">
                         <TextView
                             android:text="5. Upload Document"
@@ -171,5 +177,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

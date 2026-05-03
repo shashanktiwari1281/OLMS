@@ -4,6 +4,7 @@ import static com.employee_management_system.shashank.miscellaneousMethods.getTi
 import static com.employee_management_system.shashank.miscellaneousMethods.getTimeStamp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,9 @@ public class employeesOnLeaveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_employees_on_leave);
         SharedPreferences sharedPreferences=getSharedPreferences("userDetails", MODE_PRIVATE);
         ArrayList<QueryDocumentSnapshot> documentArray=new ArrayList<>();

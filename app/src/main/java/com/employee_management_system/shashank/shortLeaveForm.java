@@ -6,6 +6,7 @@ import static com.employee_management_system.shashank.noInternetActivity.isConne
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -49,32 +50,33 @@ public class shortLeaveForm extends AppCompatActivity {
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
     private final Map<String, String> reportingOfficerMap = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_short_leave_form);
         sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
         LEAVE_ID = sharedPreferences.getString("empId", "untitled") + getTime("yyMMddHHmmssMS");
         findViewById(R.id.backBtnSRL).setOnClickListener(view -> finish());
-        reportingToSpinner = findViewById(R.id.reportingToSpinner_SRL);
-        ArrayList<String> reportingToNames = new ArrayList<>();
+        reportingToSpinner =findViewById(R.id.reportingToSpinner_SRL);
+        ArrayList<String> reportingToNames=new ArrayList<>();
         reportingToNames.add("Select");
         reportingToSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reportingToNames));
-        if (sharedPreferences.getString("userType", null).equals("Admin"))
+        if(sharedPreferences.getString("userType",null).equals("Admin"))
             firebaseFirestore.collection("superAdmin").get().addOnCompleteListener(task -> {
                 DocumentSnapshot snap = task.getResult().getDocuments().get(0);
                 reportingToNames.add(snap.getString("name"));
                 reportingOfficerMap.put(snap.getString("name"), snap.getId());
                 reportingToSpinner.setSelection(1);
             });
-        else firebaseFirestore.collection("employees").whereEqualTo("userType", "Admin")
-                .get().addOnCompleteListener(task -> {
+        else firebaseFirestore.collection("employees").whereEqualTo("userType","Admin")
+                .get().addOnCompleteListener(task ->{
                     for (DocumentSnapshot documentSnapshot : task.getResult()) {
                         reportingOfficerMap.put(documentSnapshot.getString("name"), documentSnapshot.getId());
                         reportingToNames.add(documentSnapshot.getString("name"));
-                    }
-                });
+                    }                });
         leaveTypeSpinner = findViewById(R.id.leaveTypeSpinner_SRL);
         firebaseFirestore.collection("employees")
                 .document(sharedPreferences.getString("empId", null))
@@ -82,15 +84,14 @@ public class shortLeaveForm extends AppCompatActivity {
                 .document("remainLeaveBalanceChart")
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (Objects.requireNonNull(task.getResult().getLong("Short Leave")) < 1)
+                    if (Objects.requireNonNull(task.getResult().getLong("Short Leave")) <1)
                         new AlertDialog.Builder(this)
                                 .setTitle("No Sufficient Balance!")
                                 .setCancelable(false)
                                 .setMessage("You don't have sufficient balance for Short Leave.")
                                 .setPositiveButton("Okay", (dialogInterface, i1) -> this.finish())
                                 .show();
-                    else
-                        leaveTypeSpinner.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, new String[]{"Select", "Casual Leave", "Duty Leave", "Research Leave"}));
+                    else leaveTypeSpinner.setAdapter(new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, new String[]{"Select","Casual Leave","Duty Leave","Research Leave"}));
                 });
         dateTV = findViewById(R.id.date1TV_SRL);
         final Calendar calendar = Calendar.getInstance();
@@ -132,11 +133,9 @@ public class shortLeaveForm extends AppCompatActivity {
             applyLeave();
         });
     }
-
     private void SelectImage() {
         startActivityForResult(Intent.createChooser(new Intent().setType("image/*").setAction(Intent.ACTION_GET_CONTENT), "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,15 +149,11 @@ public class shortLeaveForm extends AppCompatActivity {
             }
         }
     }
-
     private void uploadImage() {
-        if (filePath != null)
-            FirebaseStorage.getInstance().getReference().child("uploadedDocsForLeave/" + "doc" + LEAVE_ID).putFile(filePath);
+        if (filePath != null) FirebaseStorage.getInstance().getReference().child("uploadedDocsForLeave/" + "doc" + LEAVE_ID).putFile(filePath);
     }
-
     private void applyLeave() {
-        if (isConnectionAvailable(getApplicationContext()))
-            startActivity(new Intent(this, noInternetActivity.class));
+        if (isConnectionAvailable(getApplicationContext())) startActivity(new Intent(this, noInternetActivity.class));
         else if (reportingToSpinner.getSelectedItemPosition() == 0) {
             Toast.makeText(this, "Select the reporting authority...", Toast.LENGTH_SHORT).show();
             reportingToSpinner.performClick();
@@ -168,7 +163,7 @@ public class shortLeaveForm extends AppCompatActivity {
         } else if (timeTV.getText().toString().equals("")) {
             Toast.makeText(this, "Pick the leave time...", Toast.LENGTH_SHORT).show();
             timePickerDialog.show();
-        } else if (leaveHour < 10 || leaveHour > 14) {
+        } else if (leaveHour<10||leaveHour>14) {
             Toast.makeText(this, "Pick time between 10 am to 3 pm...", Toast.LENGTH_SHORT).show();
             timePickerDialog.show();
         } else {
@@ -179,7 +174,7 @@ public class shortLeaveForm extends AppCompatActivity {
             leaveApplication.put("leaveCategory", "Short Leave");
             leaveApplication.put("leaveDate", getTimeStamp(dateTV.getText().toString() + "T" + leaveHour + ":" + leaveMinute + ":00Z"));
             leaveApplication.put("numberOfLeave", 1);
-            leaveApplication.put("readFlag", false);
+            leaveApplication.put("readFlag",false);
             leaveApplication.put("appliedOn", FieldValue.serverTimestamp());
             leaveApplication.put("leaveReason", leaveReason.getText().toString());
             leaveApplication.put("leaveStatus", "Pending");

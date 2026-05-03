@@ -1,12 +1,17 @@
 package com.employee_management_system.shashank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
+
 import android.content.Intent;
 import android.os.Bundle;
 public class manageLeaveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_manage_leave);
         findViewById(R.id.backBtnManageLeavePg).setOnClickListener(v -> finish());
         findViewById(R.id.oneDayLeave_TV).setOnClickListener(view -> startActivity(new Intent(this, oneDayLeaveFormActivity.class)));

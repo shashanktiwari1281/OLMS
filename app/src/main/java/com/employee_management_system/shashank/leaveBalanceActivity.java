@@ -1,6 +1,8 @@
 package com.employee_management_system.shashank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
+
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,6 +15,9 @@ public class leaveBalanceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_leave_balance);
         findViewById(R.id.backBtnLvBalPg).setOnClickListener(view -> finish());
         casualRemainLeaveBal =findViewById(R.id.casualRemainLeaveBal);

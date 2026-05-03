@@ -5,6 +5,7 @@ import static com.employee_management_system.shashank.miscellaneousMethods.getTi
 import static com.employee_management_system.shashank.noInternetActivity.isConnectionAvailable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -52,11 +53,13 @@ public class halfDayLeaveForm extends AppCompatActivity {
     private final FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
     private DatePickerDialog datePickerDialog;
     Button chooseImgBtn;
-    private final Map<String, String> reportingOfficerMap = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_half_day_leave_form);
         chooseImgBtn=findViewById(R.id.chooseImgBtn_HDL);
         sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
@@ -66,19 +69,14 @@ public class halfDayLeaveForm extends AppCompatActivity {
         ArrayList<String> reportingToNames=new ArrayList<>();
         reportingToNames.add("Select");
         reportingToSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, reportingToNames));
-        if(sharedPreferences.getString("userType",null).equals("Admin"))
-            firebaseFirestore.collection("superAdmin").get().addOnCompleteListener(task -> {
-                DocumentSnapshot snap = task.getResult().getDocuments().get(0);
-                reportingToNames.add(snap.getString("name"));
-                reportingOfficerMap.put(snap.getString("name"), snap.getId());
-                reportingToSpinner.setSelection(1);
-            });
+        if(sharedPreferences.getString("userType",null).equals("Admin"))firebaseFirestore.collection("superAdmin").get().addOnCompleteListener(task -> {
+            reportingToNames.add(task.getResult().getDocuments().get(0).getString("name"));
+            reportingToSpinner.setSelection(1);
+        });
         else firebaseFirestore.collection("employees").whereEqualTo("userType","Admin")
                 .get().addOnCompleteListener(task ->{
-                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                        reportingOfficerMap.put(documentSnapshot.getString("name"), documentSnapshot.getId());
-                        reportingToNames.add(documentSnapshot.getString("name"));
-                    }                });
+                    for(DocumentSnapshot documentSnapshot:task.getResult()) reportingToNames.add(documentSnapshot.getString("name"));
+                });
         leaveSpinner=findViewById(R.id.leaveTypeSpinner_HDL);
         ArrayList<String> leaveAvailable=new ArrayList<>();
         leaveAvailable.add("Select");
@@ -157,7 +155,6 @@ public class halfDayLeaveForm extends AppCompatActivity {
             progressDialog.show();
             Map<String,Object> leaveApplication = new HashMap<>();
             leaveApplication.put("reportingOfficer", reportingToSpinner.getSelectedItem().toString());
-            leaveApplication.put("reportingOfficerId", reportingOfficerMap.get(reportingToSpinner.getSelectedItem().toString()));
             leaveApplication.put("leaveType", leaveSpinner.getSelectedItem().toString());
             leaveApplication.put("leaveDate", getTimeStamp(leaveDateTV.getText().toString()+"T00:00:00Z"));
             RadioButton radioButton=findViewById(timePeriod.getCheckedRadioButtonId());

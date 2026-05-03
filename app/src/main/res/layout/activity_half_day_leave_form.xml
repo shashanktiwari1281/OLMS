@@ -4,196 +4,220 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@drawable/border_20dp_blue"
+    android:fitsSystemWindows="true"
     tools:context=".halfDayLeaveForm">
 
-    <TextView
-        android:id="@+id/formHeading"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#4CAF50"
-        android:gravity="center"
-        android:text="@string/half_day_leave_application"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/border_20dp_blue"
+        android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/border_2dp_green"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formHeading"
-        app:layout_constraintVertical_bias="0.0">
-        <ScrollView
+        <TextView
+            android:id="@+id/formHeading"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:scrollbars="none">
-            <HorizontalScrollView
+            android:layout_height="40dp"
+            android:background="#4CAF50"
+            android:gravity="center"
+            android:text="@string/half_day_leave_application"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_2dp_green"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formHeading"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:scrollbars="none">
-                <TableLayout
-                    android:layout_width="wrap_content"
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:stretchColumns="2">
-                    <TableRow>
-                        <TextView
-                            android:text="Reporting To :"
-                            android:textStyle="bold"/>
-                        <Spinner
-                            android:id="@+id/reportingToSpinner_HDL"
-                            android:layout_height="29dp"
-                            android:background="@drawable/border_2dp_green"
-                            android:layout_column="2"/>
-                    </TableRow>
-                    <TableRow
-                        android:layout_marginTop="15dp">
-                        <TextView
-                            android:text="Leave Type :"
-                            android:textStyle="bold"/>
-                        <Spinner
-                            android:id="@+id/leaveTypeSpinner_HDL"
-                            android:layout_height="29dp"
-                            android:background="@drawable/border_2dp_green"
-                            android:layout_column="2"/>
-                    </TableRow>
-                    <TableRow
-                        android:layout_marginTop="15dp">
-                        <TextView
-                            android:text="Leave Date :"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/leaveDateTV_HDL"
-                            android:padding="5dp"
-                            android:hint="Required"
-                            app:drawableEndCompat="@drawable/baseline_calendar_month_24"
-                            android:background="@drawable/border_2dp_green"
-                            android:layout_column="2"/>
-                    </TableRow>
-                    <TableRow>
-                        <TextView
-                            android:text="Time Period :"
-                            android:layout_gravity="center_vertical"
-                            android:textStyle="bold"/>
-                        <RadioGroup
-                            android:id="@+id/timePeriodRadioGroup"
-                            android:layout_column="2">
-                            <RadioButton
-                                android:id="@+id/radioBeforeNoon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Before Noon"
-                                android:checked="false"/>
+                    android:scrollbars="none">
 
-                            <RadioButton
-                                android:id="@+id/radioAfterNoon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="-15dp"
-                                android:text="After Noon"
-                                android:checked="false"/>
-                        </RadioGroup>
-                    </TableRow>
-                    <TableRow
-                        android:layout_marginTop="15dp">
-                        <TextView
-                            android:text="Reason of Leave :"
-                            android:textStyle="bold"/>
-                        <EditText
-                            android:id="@+id/leaveReason_HDL"
-                            android:layout_height="100dp"
-                            android:padding="5dp"
-                            android:background="@drawable/border_2dp_green"
-                            android:inputType="textMultiLine"
-                            android:hint="(Optional)"
-                            android:textSize="15sp"
-                            android:gravity="top"
-                            android:layout_column="2"
-                            android:autofillHints="" />
-                    </TableRow>
-                    <TableRow
-                        android:layout_marginTop="15dp">
-                        <TextView
-                            android:text="Upload Document : "
-                            android:textStyle="bold"
-                            android:layout_marginEnd="10dp"/>
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="2">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_column="2"
-                            android:background="@drawable/border_2dp_green">
+                        <TableRow>
 
-                            <ImageView
-                                android:id="@+id/applicationDocHDL"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
-                                android:layout_margin="10dp"
+                            <TextView
+                                android:text="Reporting To :"
+                                android:textStyle="bold" />
+
+                            <Spinner
+                                android:id="@+id/reportingToSpinner_HDL"
+                                android:layout_height="29dp"
                                 android:layout_column="2"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/baseline_image_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/chooseImgBtn_ODL"
-                                android:contentDescription="leaveDocImg" />
+                                android:background="@drawable/border_2dp_green" />
+                        </TableRow>
 
-                            <Button
-                                android:id="@+id/chooseImgBtn_HDL"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_margin="5dp"
-                                android:text="Choose(Optional)"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </TableRow>
-                </TableLayout>
-            </HorizontalScrollView>
-        </ScrollView>
-    </LinearLayout>
+                        <TableRow android:layout_marginTop="15dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E8E7E7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+                            <TextView
+                                android:text="Leave Type :"
+                                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/backBtnHDL"
-            android:layout_width="wrap_content"
+                            <Spinner
+                                android:id="@+id/leaveTypeSpinner_HDL"
+                                android:layout_height="29dp"
+                                android:layout_column="2"
+                                android:background="@drawable/border_2dp_green" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="15dp">
+
+                            <TextView
+                                android:text="Leave Date :"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/leaveDateTV_HDL"
+                                android:layout_column="2"
+                                android:background="@drawable/border_2dp_green"
+                                android:hint="Required"
+                                android:padding="5dp"
+                                app:drawableEndCompat="@drawable/baseline_calendar_month_24" />
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:text="Time Period :"
+                                android:textStyle="bold" />
+
+                            <RadioGroup
+                                android:id="@+id/timePeriodRadioGroup"
+                                android:layout_column="2">
+
+                                <RadioButton
+                                    android:id="@+id/radioBeforeNoon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="false"
+                                    android:text="Before Noon" />
+
+                                <RadioButton
+                                    android:id="@+id/radioAfterNoon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-15dp"
+                                    android:checked="false"
+                                    android:text="After Noon" />
+                            </RadioGroup>
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="15dp">
+
+                            <TextView
+                                android:text="Reason of Leave :"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/leaveReason_HDL"
+                                android:layout_height="100dp"
+                                android:layout_column="2"
+                                android:autofillHints=""
+                                android:background="@drawable/border_2dp_green"
+                                android:gravity="top"
+                                android:hint="(Optional)"
+                                android:inputType="textMultiLine"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_marginTop="15dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_marginEnd="10dp"
+                                android:text="Upload Document : "
+                                android:textStyle="bold" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_column="2"
+                                android:background="@drawable/border_2dp_green">
+
+                                <ImageView
+                                    android:id="@+id/applicationDocHDL"
+                                    android:layout_width="150dp"
+                                    android:layout_height="150dp"
+                                    android:layout_column="2"
+                                    android:layout_margin="10dp"
+                                    android:contentDescription="leaveDocImg"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/baseline_image_24"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/chooseImgBtn_HDL" />
+
+                                <Button
+                                    android:id="@+id/chooseImgBtn_HDL"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_margin="5dp"
+                                    android:text="Choose(Optional)"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </TableRow>
+                    </TableLayout>
+                </HorizontalScrollView>
+            </ScrollView>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Cancel"
-            android:backgroundTint="#B90909"
+            android:background="#E8E7E7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/submitBtnHDL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:backgroundTint="#21670C"
-            android:text="Submit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/backBtnHDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="#B90909"
+                android:text="Cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/submitBtnHDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="#21670C"
+                android:text="Submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,13 +29,13 @@ public class employeeOnLeaveAdapter extends RecyclerView.Adapter<employeeOnLeave
     }
     @NonNull
     @Override
-    public employeeOnLeaveAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public viewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(context).inflate(R.layout.unapproved_application_row, viewGroup, false);
-        return new employeeOnLeaveAdapter.viewHolder(v);
+        return new viewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull employeeOnLeaveAdapter.viewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull viewHolder holder, int i) {
         if (!applicationList.isEmpty()) {
             QueryDocumentSnapshot docs = applicationList.get(holder.getAdapterPosition());
             holder.empName.setText(docs.getString("empName"));

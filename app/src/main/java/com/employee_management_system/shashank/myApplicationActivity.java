@@ -1,6 +1,7 @@
 package com.employee_management_system.shashank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,9 @@ public class myApplicationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_my_application);
         findViewById(R.id.backBtnMyAppPg).setOnClickListener(view -> finish());
         SharedPreferences sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);

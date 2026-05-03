@@ -1,6 +1,7 @@
 package com.employee_management_system.shashank;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ public class adminHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_admin_home);
         TextView t = findViewById(R.id.pendingApplication_TV_AdminTool);
         userName = getSharedPreferences("userDetails", MODE_PRIVATE).getString("userName", null);

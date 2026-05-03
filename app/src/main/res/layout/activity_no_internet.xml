@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".noInternetActivity"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:layout_width="wrap_content"

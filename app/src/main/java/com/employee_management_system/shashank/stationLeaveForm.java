@@ -6,6 +6,7 @@ import static com.employee_management_system.shashank.miscellaneousMethods.getTi
 import static com.employee_management_system.shashank.noInternetActivity.isConnectionAvailable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -59,6 +60,10 @@ public class stationLeaveForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowInsetsControllerCompat controller =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+
+        controller.setAppearanceLightStatusBars(true);
         setContentView(R.layout.activity_station_leave_form);
         sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
         LEAVE_ID = sharedPreferences.getString("empId", "untitled") + getTime("yyMMddHHmmssMS");
